@@ -9,6 +9,11 @@
 * Escape! SCP-343 will not be able to take weapons and fight back!
 * SCP-343 is still pretty easy to kill for most SCPs so be careful!
 
+## Commands
+Command  | Usage | Aliases | Description 
+------------ | ------------ | ------------ | ------------ 
+`checkEnergy` | `checkEnergy` | `energy`, `343`, `scp343` | Check how much energy you have (only usable by SCP-343)
+
 ## Installation
 1. [Install Synapse](https://github.com/SynapseSL/Synapse/wiki#hosting-guides)
 2. Place the SCP-343.dll file that you can download [here](https://github.com/TheVoidNebula/SCP-343/releases) in your plugin directory
