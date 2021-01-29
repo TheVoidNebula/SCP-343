@@ -36,8 +36,8 @@ Name  | Type | Default | Description
 `canPickup` | Boolean | true | Should SCP-343 be able to pickup items?
 `convertMessage` | String | %currentEnergy%/%maxEnergy% You have just converted a item to a medkit! | What should the item convert broadcast be?
 `doorMessage` | String | %currentEnergy%/%maxEnergy% You have just interacted with a special door! | What should the item convert broadcast be?
-`spawnMessage` | String | You have spawned as <color=#F69914>SCP-343</color> Help your team to escape! | What should the spawn broadcast be?
-`killMessage` | String | You have killed <color=#F69914>SCP-343</color>! | What should the broadcast for the killer of SCP-343 be?
-`badge` | String | <color=#F69914>SCP-343</color> | What should the tag of 343 be (only visible if you directly look at SCP-343)?
+`spawnMessage` | String | You have spawned as SCP-343 Help your team to escape! | What should the spawn broadcast be?
+`killMessage` | String | You have killed SCP-343! | What should the broadcast for the killer of SCP-343 be?
+`badge` | String | SCP-343 | What should the tag of 343 be (only visible if you directly look at SCP-343)?
 `canEscape` | Boolean | true | Can SCP-343 escape?
 `escapeRole` | RoleType | Spectator | What role should SCP-343 become after escaping?
