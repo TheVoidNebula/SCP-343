@@ -2,8 +2,12 @@
  Adds a new powerful SCP on the side of the Class-D
  
 ## Features
-* Determine which of the stats you want to show at the end of the round
-* Customize the messages for the stats
+* Adds a new powerful ally for the Class-D
+* Play a completly new play style!
+* Use the completly unique energy system to convert items and open special doors
+* Die when all other Class-D are either dead or have escape
+* Escape! SCP-343 will not be able to take weapons and fight back!
+* SCP-343 is still pretty easy to kill for most SCPs so be careful!
 
 ## Installation
 1. [Install Synapse](https://github.com/SynapseSL/Synapse/wiki#hosting-guides)
