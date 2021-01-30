@@ -38,8 +38,7 @@ namespace SCP_343
                     if (RoundSummary.singleton.CountTeam(Team.CDP) <= 1 && players.RealTeam == Team.CDP && players.RoleID == 343)
                     {
                         players.Kill(DamageTypes.Poison);
-                        players.ActiveBroadcasts.Clear();
-                        players.SendBroadcast(5, Plugin.Config.noClassDMessage);
+                        players.SendBroadcast(5, Plugin.Config.noClassDMessage, true);
                     }
                 }
             }
@@ -80,14 +79,6 @@ namespace SCP_343
 
         private void OnDeath(Synapse.Api.Events.SynapseEventArguments.PlayerDeathEventArgs ev)
         {
-            if (ev.Victim.RoleID == 343)
-            {
-                Map.Get.AnnounceScpDeath("3 4 3");
-                ev.Victim.Ammo5 = 0;
-                ev.Victim.Ammo7 = 0;
-                ev.Victim.Ammo9 = 0;
-                ev.Victim.DisplayInfo = null;
-            }
             if (Plugin.Config.noClassDDeath == true)
             {
                 foreach (Player players in Server.Get.Players)

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Synapse.Api;
+using System.Collections.Generic;
 
 namespace SCP_343
 {
     public class SCP343PlayerScript : Synapse.Api.Roles.Role
     {
-        public override List<Team> GetEnemys() => new List<Team> { Team.MTF, Team.SCP, Team.RSC, Team.TUT };
+        public override List<Team> GetEnemys() => new List<Team> { Team.MTF, Team.SCP, Team.RSC };
 
         public override List<Team> GetFriends() => new List<Team> { Team.CDP, Team.CHI };
 
@@ -38,5 +39,17 @@ namespace SCP_343
         }
 
         internal bool Spawned = false;
+
+        public override void DeSpawn()
+        {
+            Player.DisplayInfo = string.Empty;
+            Player.AddDisplayInfo(PlayerInfoArea.Role);
+            Map.Get.AnnounceScpDeath("3 4 3");
+            Player.Ammo5 = 0;
+            Player.Ammo7 = 0;
+            Player.Ammo9 = 0;
+        }
     }
+
+
 }
