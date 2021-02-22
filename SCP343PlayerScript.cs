@@ -23,21 +23,21 @@ namespace SCP_343
             Player.Inventory.Clear();
 
             Player.RemoveDisplayInfo(PlayerInfoArea.Role);
-            Player.DisplayInfo = Plugin.Config.badge;
+            Player.DisplayInfo = Plugin.Config.Badge;
 
-            foreach (var item in Plugin.Config.items)
+            foreach (var item in Plugin.Config.Items)
                 Player.Inventory.AddItem(item.Parse());
 
-            Player.Health = Plugin.Config.health;
-            Player.MaxHealth = Plugin.Config.maxHealth;
+            Player.Health = Plugin.Config.Health;
+            Player.MaxHealth = Plugin.Config.MaxHealth;
 
 
 
-            if (Plugin.Config.isGodmode)
+            if (Plugin.Config.IsGodmode)
                 Player.GodMode = true;
 
 
-            Player.OpenReportWindow(Plugin.Config.spawnMessage);
+            Player.OpenReportWindow(Plugin.Config.SpawnMessage);
         }
 
         internal bool Spawned = false;
@@ -89,14 +89,14 @@ namespace SCP_343
             {
                 if (energy.ContainsKey(p.DisplayName))
                 {
-                    float missingEnergy = Plugin.Config.maxEnergy - energy[p.DisplayName];
-                    if (missingEnergy < Plugin.Config.energyPerSek)
-                        energy[p.DisplayName] = Plugin.Config.maxEnergy;
+                    float missingEnergy = Plugin.Config.MaxEnergy - energy[p.DisplayName];
+                    if (missingEnergy < Plugin.Config.EnergyPerSek)
+                        energy[p.DisplayName] = Plugin.Config.MaxEnergy;
                     else
-                        energy[p.DisplayName] += Plugin.Config.energyPerSek;
+                        energy[p.DisplayName] += Plugin.Config.EnergyPerSek;
                 }
                 else
-                    energy.Add(p.DisplayName, Plugin.Config.startingEnergy);
+                    energy.Add(p.DisplayName, Plugin.Config.StartingEnergy);
 
                 yield return Timing.WaitForSeconds(1f);
                 yield return Timing.WaitForOneFrame;
