@@ -4,7 +4,6 @@ using Synapse;
 using Synapse.Api;
 using System.Linq;
 using UnityEngine;
-using static RoomInformation;
 
 namespace SCP_343
 {
@@ -31,11 +30,11 @@ namespace SCP_343
 
         private void onLeave(Synapse.Api.Events.SynapseEventArguments.PlayerLeaveEventArgs ev)
         {
-            if (Plugin.Config.noClassDDeath == true)
+            if (Plugin.Config.noClassDDeath && RoundSummary.singleton.CountTeam(Team.CDP) == 1 && ev.Player.RealTeam == Team.CDP)
             {
                 foreach (Player players in Server.Get.Players)
                 {
-                    if (RoundSummary.singleton.CountTeam(Team.CDP) <= 1 && players.RealTeam == Team.CDP && players.RoleID == 343)
+                    if (players.RoleID == 343)
                     {
                         players.Kill(DamageTypes.Poison);
                         players.SendBroadcast(5, Plugin.Config.noClassDMessage, true);
@@ -50,13 +49,13 @@ namespace SCP_343
             {
                 script.Spawned = true;
                 ev.Player.Position = Plugin.Config.spawnPoint.Parse().Position;
-                _start = Timing.RunCoroutine(Energy.energyRegeneration(ev.Player));
+                _start = Timing.RunCoroutine(SCP343PlayerScript.energyRegeneration(ev.Player));
             }
         }
 
         private void OnSpawn(Synapse.Api.Events.SynapseEventArguments.SpawnPlayersEventArgs ev)
         {
-            if (Server.Get.GetPlayers(x => !x.OverWatch).Count >= Plugin.Config.minPlayers)
+            if (Server.Get.GetPlayers(x => !x.OverWatch).Count() >= ev.SpawnPlayers.Keys.Count())
             {
                 if (Random.Range(1f, 100f) < Plugin.Config.spawnChance)
                 {
@@ -130,16 +129,16 @@ namespace SCP_343
 
         private void onPickup(Synapse.Api.Events.SynapseEventArguments.PlayerPickUpItemEventArgs ev)
         {
-            if(ev.Player.RoleID == 343 && Energy.energy.ContainsKey(ev.Player.DisplayName))
+            if(ev.Player.RoleID == 343 && SCP343PlayerScript.energy.ContainsKey(ev.Player.DisplayName))
             {
                 if (Plugin.Config.canPickup)
                 {
-                    if (Energy.energy[ev.Player.DisplayName] >= Plugin.Config.convertItemEnergy && ev.Item.ItemType != ItemType.Medkit)
+                    if (SCP343PlayerScript.energy[ev.Player.DisplayName] >= Plugin.Config.convertItemEnergy && ev.Item.ItemType != ItemType.Medkit)
                     {
                         ev.Item.Destroy();
                         ev.Player.Inventory.AddItem(new Synapse.Api.Items.SynapseItem((int)ItemType.Medkit, 0, 0, 0, 0));
-                        ev.Player.GiveTextHint(Plugin.Config.convertMessage.Replace("%currentEnergy%", Energy.getEnergy(ev.Player).ToString()).Replace("%maxEnergy%", Plugin.Config.maxEnergy.ToString()));
-                        Energy.removeEnergy(ev.Player, Plugin.Config.convertItemEnergy);
+                        ev.Player.GiveTextHint(Plugin.Config.convertMessage.Replace("%currentEnergy%", SCP343PlayerScript.getEnergy(ev.Player).ToString()).Replace("%maxEnergy%", Plugin.Config.maxEnergy.ToString()));
+                        SCP343PlayerScript.removeEnergy(ev.Player, Plugin.Config.convertItemEnergy);
                     }
                     else
                         ev.Allow = false;
@@ -155,11 +154,11 @@ namespace SCP_343
 
         private void onDoorInteract(Synapse.Api.Events.SynapseEventArguments.DoorInteractEventArgs ev)
         {
-            if (ev.Player.RoleID == 343 && Energy.energy.ContainsKey(ev.Player.DisplayName))
+            if (ev.Player.RoleID == 343 && SCP343PlayerScript.energy.ContainsKey(ev.Player.DisplayName))
             {
                 if (ev.Door.DoorPermissions.RequiredPermissions != Interactables.Interobjects.DoorUtils.KeycardPermissions.None)
                 {
-                    if (Energy.energy[ev.Player.DisplayName] >= Plugin.Config.doorEnergy)
+                    if (SCP343PlayerScript.energy[ev.Player.DisplayName] >= Plugin.Config.doorEnergy)
                     {
                         if (ev.Door.VDoor.IsConsideredOpen())
                         {
@@ -169,8 +168,8 @@ namespace SCP_343
                         {
                             ev.Door.VDoor.NetworkTargetState = true;
                         }
-                        ev.Player.GiveTextHint(Plugin.Config.doorMessage.Replace("%currentEnergy%", Energy.getEnergy(ev.Player).ToString()).Replace("%maxEnergy%", Plugin.Config.maxEnergy.ToString()));
-                        Energy.removeEnergy(ev.Player, Plugin.Config.doorEnergy);
+                        ev.Player.GiveTextHint(Plugin.Config.doorMessage.Replace("%currentEnergy%", SCP343PlayerScript.getEnergy(ev.Player).ToString()).Replace("%maxEnergy%", Plugin.Config.maxEnergy.ToString()));
+                        SCP343PlayerScript.removeEnergy(ev.Player, Plugin.Config.doorEnergy);
                     } 
                     else
                         ev.Allow = false;

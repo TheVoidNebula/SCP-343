@@ -24,11 +24,11 @@ namespace SCP_343
                 return result;
             }
 
-            if (Energy.energy.ContainsKey(context.Player.DisplayName))
+            if (SCP343PlayerScript.energy.ContainsKey(context.Player.DisplayName))
             {
-                result.Message = $"You have {Energy.getEnergy(context.Player)}/{Plugin.Config.maxEnergy} energy";
+                result.Message = $"You have {SCP343PlayerScript.getEnergy(context.Player)}/{Plugin.Config.maxEnergy} energy";
                 result.State = CommandResultState.Ok;
-                context.Player.GiveTextHint($"You have <color=#2AF61A>{Energy.getEnergy(context.Player)}/{Plugin.Config.maxEnergy}</color> energy");
+                context.Player.GiveTextHint($"You have <color=#2AF61A>{SCP343PlayerScript.getEnergy(context.Player)}/{Plugin.Config.maxEnergy}</color> energy");
                 return result;
             }
             else
