@@ -6,6 +6,8 @@ namespace SCP_343
 {
     public class SCP343PlayerScript : Synapse.Api.Roles.Role
     {
+
+        public float Energy { get; set; }
         public override List<Team> GetEnemys() => new List<Team> { Team.MTF, Team.SCP, Team.RSC };
 
         public override List<Team> GetFriends() => new List<Team> { Team.CDP, Team.CHI };
@@ -52,51 +54,20 @@ namespace SCP_343
             Player.Ammo9 = 0;
         }
 
-        public static Dictionary<string, float> energy = new Dictionary<string, float>();
 
 
-        public static void setEnergy(Player p, int value)
-        {
-            if (energy.ContainsKey(p.DisplayName))
-                energy[p.DisplayName] = value;
-            else
-                energy.Add(p.DisplayName, value);
-        }
-
-        public static void addEnergy(Player p, int value)
-        {
-            if (energy.ContainsKey(p.DisplayName))
-                energy[p.DisplayName] += value;
-            else
-                energy.Add(p.DisplayName, value);
-        }
-
-        public static void removeEnergy(Player p, int value)
-        {
-            if (energy.ContainsKey(p.DisplayName))
-                energy[p.DisplayName] -= value;
-        }
-
-        public static float getEnergy(Player p)
-        {
-            return energy[p.DisplayName];
-        }
 
 
         public static IEnumerator<float> energyRegeneration(Player p)
         {
             while (p.RoleID == 343)
             {
-                if (energy.ContainsKey(p.DisplayName))
-                {
-                    float missingEnergy = Plugin.Config.MaxEnergy - energy[p.DisplayName];
-                    if (missingEnergy < Plugin.Config.EnergyPerSek)
-                        energy[p.DisplayName] = Plugin.Config.MaxEnergy;
-                    else
-                        energy[p.DisplayName] += Plugin.Config.EnergyPerSek;
-                }
+                    float missingEnergy = Plugin.Config.MaxEnergy - (p.CustomRole as SCP343PlayerScript).Energy;
+                if (missingEnergy < Plugin.Config.EnergyPerSek)
+                    (p.CustomRole as SCP343PlayerScript).Energy = Plugin.Config.MaxEnergy;
                 else
-                    energy.Add(p.DisplayName, Plugin.Config.StartingEnergy);
+                    (p.CustomRole as SCP343PlayerScript).Energy += Plugin.Config.EnergyPerSek;
+                
 
                 yield return Timing.WaitForSeconds(1f);
                 yield return Timing.WaitForOneFrame;
